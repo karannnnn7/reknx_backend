@@ -84,8 +84,16 @@ const logout = async (req, res) => {
     }
     return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json({ success: true, message: 'user loged out' })
 }
+const getCurrentUser = async (req, res) => {
+    res.status(200).json({
+        success: true,
+        user: req.user,
+    });
+};
+
 export {
     loginUser,
     createUser,
-    logout
+    logout,
+    getCurrentUser
 }
