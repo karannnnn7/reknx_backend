@@ -9,12 +9,6 @@ const createPortfolio = async (req, res) => {
 
     const { title, discription, rating } = req.body;
 
-    if (!title || !discription || !rating) {
-      return res.status(400).json({
-        success: false,
-        message: "all fileds are required",
-      });
-    }
 
     const imgpath = req.files?.img[0]?.path;
     if (!imgpath) {
