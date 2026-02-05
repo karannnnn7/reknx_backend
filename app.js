@@ -15,6 +15,9 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
+
+console.log("process.env.MONGODB_URL app.js == ", process.env.MONGODB_URL);
+
 app.get('/', (req, res) => {
   res.send('server is running ....')
 })
