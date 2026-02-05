@@ -56,7 +56,8 @@ const loginUser =
         const options = { // help to not modify the cookies 
             httpOnly: true,
             secure: true,
-            sameSite: "none"
+            sameSite: "none",
+            path: "/"
         }
         res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options).json({ success: true, message: "user logged In done", data: loggedInUser, accessToken, refreshToken })
     }
@@ -77,7 +78,8 @@ const logout = async (req, res) => {
     const options = { // not alloed to modify the cookies
         httpOnly: true,
         secure: true,
-        sameSite: "none"
+        sameSite: "none",
+        path: "/"
     }
     return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json({ success: true, message: 'user loged out' })
 }
