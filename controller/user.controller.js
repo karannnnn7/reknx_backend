@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
         if (!user) {
             return res.status(500).json({ success: false, message: 'failed to create user' })
         }
-        const createdUser = await User.find(user._id).select('-password -refershToken')
+        const createdUser = await User.find(user._id).select('-password -refreshToken')
         return res.status(200).json({ success: true, message: 'user created', data: createdUser })
     } catch (error) {
         return res.status(500).json({ success: false, message: error })
@@ -59,7 +59,6 @@ const loginUser =
             sameSite: "none",
             path: "/"
         }
-        console.log("process.env.MONGODB_URL app.js == ", process.env.MONGODB_URL);
 
         res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options).json({ success: true, message: "user logged In done", data: loggedInUser, accessToken, refreshToken })
     }
