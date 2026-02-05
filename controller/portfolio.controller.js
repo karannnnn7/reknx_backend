@@ -68,13 +68,6 @@ const updatePortfolio = async (req, res) => {
     const { id } = req.params;
     const { title, discription, rating } = req.body;
 
-    if (!title|| !discription) {
-      return res.status(400).json({
-        success: false,
-        message: "all fileds are required",
-      });
-    }
-
     const imgpath = req.files?.img[0]?.path;
     if (!imgpath) {
       return res.status(400).json({
