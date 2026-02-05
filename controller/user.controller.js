@@ -59,6 +59,8 @@ const loginUser =
             sameSite: "none",
             path: "/"
         }
+        console.log("process.env.MONGODB_URL app.js == ", process.env.MONGODB_URL);
+
         res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options).json({ success: true, message: "user logged In done", data: loggedInUser, accessToken, refreshToken })
     }
 
