@@ -10,8 +10,8 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
         await giveUserToken.save({ validateBeforeSave: false })
         return { accessToken, refreshToken }
     } catch (error) {
-        console.log("failed to generate token : ",error.message);
-        
+        console.log("failed to generate token : ", error.message);
+
     }
 }
 
@@ -48,36 +48,38 @@ const loginUser =
         }
         const isPasswordValid = await user.isPassword(password)
         if (!isPasswordValid) {
-           return res.status(401).json({ success: false, message: 'password is invalid' })
+            return res.status(401).json({ success: false, message: 'password is invalid' })
         }
         const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id)
         const loggedInUser = await User.findById(user._id).select("-password -refershToken")
 
         const options = { // help to not modify the cookies 
             httpOnly: true,
-            secure: true
+            secure: true,
+            sameSite: "none"
         }
-        res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options).json({success:true,message: "user logged In done", data: loggedInUser, accessToken, refreshToken })
+        res.status(200).cookie("accessToken", accessToken, options).cookie("refreshToken", refreshToken, options).json({ success: true, message: "user logged In done", data: loggedInUser, accessToken, refreshToken })
     }
 
-const logout =async (req,res) => {
+const logout = async (req, res) => {
     await User.findByIdAndUpdate( // update the token
         req.user._id,
         {
 
-            $unset:{
+            $unset: {
                 refreshToken: 1
             }
         },
-        { 
+        {
             new: true
         }
     )
     const options = { // not alloed to modify the cookies
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "none"
     }
-    return res.status(200).clearCookie("accessToken",options).clearCookie("refreshToken",options).json({success: true ,message: 'user loged out'})
+    return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json({ success: true, message: 'user loged out' })
 }
 export {
     loginUser,
