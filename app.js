@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import connectDB from "./db/db.js";
+
+await connectDB()
 
 const app = express()
 var corsOptions = {
